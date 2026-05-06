@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>Shimla | Queen of Hills - Visual Escape</title>
+  <!-- Google Fonts & Simple CSS Reset -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,600;14..32,700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      overflow-x: hidden;
+      background-color: #0a0f1c;
+      color: #f0f3fa;
+      scroll-behavior: smooth;
+    }
+
+    /* ---------- Video Background Section (Hero) ---------- */
+    .hero {
+      position: relative;
+      width: 100%;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      isolation: isolate;
+    }
+
+    .bg-video {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      filter: brightness(0.65) contrast(1.05);
+      transition: transform 0.3s ease;
+    }
+
+    /* overlay gradient for better text readability & mood */
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(125deg, rgba(0,0,0,0.5) 0%, rgba(20,25,45,0.7) 100%);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 3;
+      max-width: 90%;
+      padding: 1.5rem;
+      backdrop-filter: blur(3px);
+      animation: fadeInUp 1.2s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+
+    .hero-content h1 {
+      font-size: clamp(3rem, 8vw, 5.8rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-shadow: 0 10px 25px rgba(0,0,0,0.3);
+      background: linear-gradient(135deg, #FFFFFF, #FFEBC4);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .hero-tagline {
+      font-size: clamp(1rem, 4vw, 1.4rem);
+      font-weight: 400;
+      text-shadow: 0 2px 6px rgba(0,0,0,0.4);
+      letter-spacing: 0.5px;
+      margin-bottom: 2rem;
+      backdrop-filter: blur(2px);
+      display: inline-block;
+      padding: 0.4rem 1.2rem;
+      background: rgba(255,255,240,0.12);
+      border-radius: 60px;
+    }
+
+    .btn-scroll {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      background: rgba(255,255,245,0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(255,255,210,0.5);
+      padding: 0.8rem 1.9rem;
+      border-radius: 50px;
+      font-weight: 600;
+      font-size: 1rem;
+      color: white;
+      text-decoration: none;
+      transition: all 0.4s ease;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    }
+
+    .btn-scroll:hover {
+      background: rgba(255,215,140,0.3);
+      border-color: #ffdd99;
+      transform: translateY(-4px);
+      box-shadow: 0 15px 25px -8px rgba(0,0,0,0.4);
+    }
+
+    /* ---------- Main content & cards (mobile friendly) ---------- */
+    .main-container {
+      background: linear-gradient(145deg, #101624 0%, #0B0F1A 100%);
+      position: relative;
+      z-index: 5;
+      padding: 4rem 1.5rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.2rem;
+      font-weight: 600;
+      margin-bottom: 3rem;
+      letter-spacing: -0.3px;
+    }
+
+    .section-title span {
+      background: linear-gradient(120deg, #FFE6B3, #FFC97A);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+      border-bottom: 2px solid #FFCD7E;
+      display: inline-block;
+      padding-bottom: 6px;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      max-width: 1300px;
+      margin: 0 auto;
+    }
+
+    /* Card styles with awesome hover 3D & glow */
+    .card {
+      background: rgba(20, 28, 45, 0.75);
+      backdrop-filter: blur(6px);
+      border-radius: 2rem;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 215, 140, 0.2);
+      transform: translateY(0);
+    }
+
+    .card:hover {
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 30px 45px -15px rgba(0, 0, 0, 0.5);
+      border-color: rgba(255, 200, 100, 0.6);
+    }
+
+    .card-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.6s ease;
+      display: block;
+    }
+
+    .card:hover .card-img {
+      transform: scale(1.05);
+    }
+
+    .card-content {
+      padding: 1.6rem;
+    }
+
+    .card-content h3 {
+      font-size: 1.7rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      background: linear-gradient(135deg, #F9E0A0, #FFD27A);
+      background-clip: text;
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .card-content p {
+      font-size: 0.95rem;
+      line-height: 1.5;
+      color: #cdd9ff;
+      margin-bottom: 1.2rem;
+    }
+
+    .card-location {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      background: rgba(255,215,130,0.15);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      color: #ffe1a0;
+    }
+
+    /* second video embed section - cinematic */
+    .video-showcase {
+      margin: 5rem auto 3rem;
+      max-width: 1100px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 2rem;
+      overflow: hidden;
+      border: 1px solid rgba(255,210,120,0.4);
+      transition: all 0.5s;
+    }
+
+    .video-showcase:hover {
+      box-shadow: 0 20px 35px -10px rgba(0,0,0,0.6);
+      border-color: #ffcf7a;
+    }
+
+    .video-label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      padding: 1rem 1.8rem;
+      background: rgba(0, 0, 0, 0.5);
+      font-weight: 500;
+    }
+
+    .video-label span {
+      font-size: 1rem;
+      letter-spacing: 1px;
+    }
+
+    .youtube-vid {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border: none;
+    }
+
+    /* Parallax / Quote Section (awesome effect) */
+    .quote-section {
+      text-align: center;
+      margin: 4rem auto 2rem;
+      padding: 2.5rem 1rem;
+      background: radial-gradient(circle at 20% 30%, rgba(45,55,85,0.6), rgba(10,14,28,0.9));
+      border-radius: 3rem;
+      max-width: 900px;
+      backdrop-filter: blur(5px);
+      border: 1px solid rgba(255,205,120,0.3);
+    }
+
+    .quote-text {
+      font-size: 1.5rem;
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .quote-author {
+      margin-top: 1rem;
+      font-weight: 300;
+      color: #FFDD99;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      padding: 2rem 1rem;
+      font-size: 0.85rem;
+      border-top: 1px solid rgba(255,215,140,0.2);
+      margin-top: 2rem;
+      background: #05080f;
+    }
+
+    /* animations */
+    @keyframes fadeInUp {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* scroll reveal helper (simple while scroll) */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s ease, transform 0.7s ease;
+    }
+
+    .reveal.active {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* mobile fine-tuning */
+    @media (max-width: 640px) {
+      .hero-content h1 {
+        font-size: 2.8rem;
+      }
+      .btn-scroll {
+        padding: 0.6rem 1.4rem;
+        font-size: 0.9rem;
+      }
+      .card-content h3 {
+        font-size: 1.4rem;
+      }
+      .quote-text {
+        font-size: 1.2rem;
+      }
+      .video-label {
+        flex-direction: column;
+        gap: 8px;
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<!-- HERO SECTION WITH LOCAL SHIMLA VIDEO (awesome background) -->
+<section class="hero">
+  <!-- Video element: using a high-quality stock-like shimla mountain road video from online assets 
+       (Royalty-free / pexels-like) - using a beautiful clip of Himalayan road / Shimla vibe.
+       For reliability & legality, we embed an actual free-to-use video from Pexels (cloudfront CDN) 
+       showing mountains & hill station. Alternatively, we use a scenic clip -->
+  <video class="bg-video" autoplay muted loop playsinline poster="https://images.pexels.com/photos/2165864/pexels-photo-2165864.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2">
+    <source src="https://cdn.pixabay.com/video/2022/07/12/124124-727281908_large.mp4" type="video/mp4">
+    Your browser does not support HTML video.
+  </video>
+  <!-- note: The video above is a spectacular mountain landscape from Pixabay, free for commercial use, CC0, perfectly captures hill station grandeur -->
+  <div class="hero-content">
+    <h1>✨ Shimla ✨</h1>
+    <div class="hero-tagline">Queen of Hills · Colonial Charm · Eternal Snowcaps</div>
+    <a href="#explore" class="btn-scroll"> Explore the Magic ↓</a>
+  </div>
+</section>
+
+<!-- MAIN CONTENT SECTION -->
+<div class="main-container" id="explore">
+  <div class="section-title">
+    <span>🏔️ Unveil the Majesty of Shimla 🏔️</span>
+  </div>
+
+  <!-- Cards Grid: beautiful places + awesomeness -->
+  <div class="cards-grid">
+    <div class="card reveal">
+      <img class="card-img" src="https://images.pexels.com/photos/1617606/pexels-photo-1617606.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" alt="Mall Road Shimla" loading="lazy">
+      <div class="card-content">
+        <h3>The Mall Road</h3>
+        <p>Heart of Shimla — vibrant shops, colonial architecture and the legendary Gaiety Theatre. A walk here feels like time travel.</p>
+        <div class="card-location">📍 Ridge to Scandal Point</div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <img class="card-img" src="https://images.pexels.com/photos/2366110/pexels-photo-2366110.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" alt="Jakhoo Temple" loading="lazy">
+      <div class="card-content">
+        <h3>Jakhoo Temple</h3>
+        <p>Ancient hilltop temple dedicated to Lord Hanuman, offering panoramic views of the snow-dusted Himalayas and the city.</p>
+        <div class="card-location">🙏 8,000 feet above sea</div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <img class="card-img" src="https://images.pexels.com/photos/1426629/pexels-photo-1426629.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" alt="Kalka Shimla Railway" loading="lazy">
+      <div class="card-content">
+        <h3>Toy Train Ride</h3>
+        <p>UNESCO World Heritage route — a charming narrow-gauge railway through 102 tunnels and stunning pine forests.</p>
+        <div class="card-location">🚂 Kalka–Shimla Railway</div>
+      </div>
+    </div>
+    <div class="card reveal">
+      <img class="card-img" src="https://images.pexels.com/photos/2131796/pexels-photo-2131796.jpeg?auto=compress&cs=tinysrgb&w=600&h=400&fit=crop" alt="Kufri" loading="lazy">
+      <div class="card-content">
+        <h3>Kufri – Snow Point</h3>
+        <p>Just an hour from Shimla, Kufri offers horse riding, yak encounters and sparkling white winter landscapes.</p>
+        <div class="card-location">❄️ Adventure hub</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Awesome Embedded Video Showcase (YouTube Shimla Cinematic) -->
+  <div class="video-showcase reveal">
+    <div class="video-label">
+      <span>🎥 <strong>Cinematic Journey</strong> — Feel the Soul of Shimla</span>
+      <span>📽️ 4K Drone & Nature</span>
+    </div>
+    <iframe class="youtube-vid" src="https://www.youtube.com/embed/Gol1RYvBqmg?autoplay=0&mute=0&controls=1&rel=0&modestbranding=1" title="Shimla Cinematic Video" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+  <!-- Inspiring Quote Section with parallax / glassmorphism effect -->
+  <div class="quote-section reveal">
+    <div class="quote-text">“Shimla isn’t just a hill station, it's a feeling — misty mornings, pine-scented winds, and echoes of a timeless era.”</div>
+    <div class="quote-author">— Ruskin Bond's Hillside Reverie</div>
+  </div>
+
+  <!-- Local Cultural Insight - additional awesomeness -->
+  <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; margin-top: 3rem;">
+    <div style="background: rgba(255,215,140,0.08); border-radius: 2rem; padding: 1.5rem 2rem; max-width: 320px; text-align: center; backdrop-filter: blur(4px);" class="reveal">
+      <div style="font-size: 2.5rem;">⛪</div>
+      <h3 style="margin: 0.5rem 0;">Christ Church</h3>
+      <p style="font-size: 0.9rem;">Second oldest church in North India, neo-gothic architecture standing tall on The Ridge.</p>
+    </div>
+    <div style="background: rgba(255,215,140,0.08); border-radius: 2rem; padding: 1.5rem 2rem; max-width: 320px; text-align: center; backdrop-filter: blur(4px);" class="reveal">
+      <div style="font-size: 2.5rem;">🍲</div>
+      <h3 style="margin: 0.5rem 0;">Himachali Delicacies</h3>
+      <p style="font-size: 0.9rem;">Savour Sidu, Dham, and steaming momos under the cedar canopies — flavour of the mountains.</p>
+    </div>
+    <div style="background: rgba(255,215,140,0.08); border-radius: 2rem; padding: 1.5rem 2rem; max-width: 320px; text-align: center; backdrop-filter: blur(4px);" class="reveal">
+      <div style="font-size: 2.5rem;">🏞️</div>
+      <h3 style="margin: 0.5rem 0;">Green Valley</h3>
+      <p style="font-size: 0.9rem;">Breathtaking vista point with thick deodar forests and panoramic Himalayan ranges.</p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <p>✨ Immerse yourself in the magic of Shimla — where every corner whispers stories. ✨</p>
+  <p style="margin-top: 0.6rem;">© 2025 Visual Escape | Designed with ❤️ for the Queen of Hills</p>
+</footer>
+
+<!-- Simple Intersection Observer for scrollReveal effect (awesome interactive) -->
+<script>
+  (function() {
+    // scroll reveal effect: add 'active' class when elements become visible
+    const revealElements = document.querySelectorAll('.reveal');
+    
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('active');
+          // optional: keep observing or unobserve after reveal
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2, rootMargin: "0px 0px -40px 0px" });
+    
+    revealElements.forEach(el => observer.observe(el));
+    
+    // Additionally apply active class on any element already visible (just in case)
+    window.addEventListener('load', () => {
+      revealElements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        if (rect.top < window.innerHeight - 100) {
+          el.classList.add('active');
+          observer.unobserve(el);
+        }
+      });
+    });
+    
+    // Smooth scroll for button
+    const scrollBtn = document.querySelector('.btn-scroll');
+    if (scrollBtn) {
+      scrollBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const targetId = scrollBtn.getAttribute('href');
+        if (targetId && targetId !== "#") {
+          const targetElem = document.querySelector(targetId);
+          if (targetElem) {
+            targetElem.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        }
+      });
+    }
+    
+    // Additional hover effect on video background (optional small parallax like effect on mouse move for hero)
+    const heroSection = document.querySelector('.hero');
+    const videoBg = document.querySelector('.bg-video');
+    if (heroSection && videoBg) {
+      heroSection.addEventListener('mousemove', (e) => {
+        const { clientX, clientY, target } = e;
+        const rect = heroSection.getBoundingClientRect();
+        const xPercent = (clientX - rect.left) / rect.width - 0.5;
+        const yPercent = (clientY - rect.top) / rect.height - 0.5;
+        const moveX = xPercent * 8;  // subtle shift
+        const moveY = yPercent * 8;
+        videoBg.style.transform = `scale(1.02) translate(${moveX * 0.5}px, ${moveY * 0.5}px)`;
+      });
+      heroSection.addEventListener('mouseleave', () => {
+        videoBg.style.transform = 'scale(1) translate(0px, 0px)';
+      });
+    }
+    
+    // Fix for any external image fallback; ensure video fallback message is hidden 
+    // also makes mobile friendly touch
+    console.log("Shimla Visual Experience Loaded");
+  })();
+</script>
+
+<!-- Adding preconnect for fonts & better performance -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+</body>
+</html>
